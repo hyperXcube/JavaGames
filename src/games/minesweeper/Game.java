@@ -19,7 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-public class Game<S> extends JPanel implements MouseListener {
+public class Game extends JPanel implements MouseListener {
     // Dimensions
     private final int width = 18; // Width of the window in tiles
     private final int height = 14; // Height of the window in tiles
@@ -27,6 +27,7 @@ public class Game<S> extends JPanel implements MouseListener {
     private final int topMargin = 40; // Height of top margin
     private final int windowWidth = width * tileSize;
     private final int windowHeight = height * tileSize;
+
     // Images (image setup in init)
     private BufferedImage mine = null;
     private BufferedImage flag = null;
