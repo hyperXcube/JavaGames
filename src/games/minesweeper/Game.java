@@ -34,6 +34,7 @@ public class Game extends JPanel implements MouseListener {
 
     // Misc.
     private final int numOfMines = 40;
+    private boolean running = false; // Whether a game has actually started
     private final Stopwatch stopwatch = new Stopwatch();
     private Tile[][] tiles = new Tile[width][height];
 
@@ -95,23 +96,28 @@ public class Game extends JPanel implements MouseListener {
                 // Drawing tile BG
                 g2d.setColor(Color.BLACK);
                 g2d.drawRect(i*tileSize, j*tileSize + topMargin, tileSize, tileSize);
-                if (tile.open) {
-                    g2d.setColor(Color.LIGHT_GRAY);
-                } else {
+                if (running && stopwatch.isPaused()) {
                     g2d.setColor(Color.GRAY);
-                }
-                g2d.fillRect(i*tileSize, j*tileSize + topMargin, tileSize, tileSize);
-
-                // Drawing contents of tile
-                if (tile.open && tile.value != 0) {
-                    if (tile.value == 9) {
-                        g2d.drawImage(mine, i * tileSize, j * tileSize + topMargin, tileSize, tileSize, null);
+                    g2d.fillRect(i*tileSize, j*tileSize + topMargin, tileSize, tileSize);
+                } else {
+                    if (tile.open) {
+                        g2d.setColor(Color.LIGHT_GRAY);
                     } else {
-                        g2d.setColor(colors[tile.value]);
-                        g2d.drawString(String.valueOf(tile.value), i * tileSize + 8, (j + 1) * tileSize - 8 + topMargin);
+                        g2d.setColor(Color.GRAY);
                     }
-                } else if (tile.flagged) {
-                    g2d.drawImage(flag, i * tileSize, j * tileSize + topMargin, tileSize, tileSize, null);
+                    g2d.fillRect(i * tileSize, j * tileSize + topMargin, tileSize, tileSize);
+
+                    // Drawing contents of tile
+                    if (tile.open && tile.value != 0) {
+                        if (tile.value == 9) {
+                            g2d.drawImage(mine, i * tileSize, j * tileSize + topMargin, tileSize, tileSize, null);
+                        } else {
+                            g2d.setColor(colors[tile.value]);
+                            g2d.drawString(String.valueOf(tile.value), i * tileSize + 8, (j + 1) * tileSize - 8 + topMargin);
+                        }
+                    } else if (tile.flagged) {
+                        g2d.drawImage(flag, i * tileSize, j * tileSize + topMargin, tileSize, tileSize, null);
+                    }
                 }
             }
         }
@@ -162,6 +168,7 @@ public class Game extends JPanel implements MouseListener {
                 // Start stopwatch on first click
                 if (stopwatch.isPaused()) {
                     stopwatch.start();
+                    running = true;
                 }
 
                 // Opening tile that was clicked
@@ -246,6 +253,7 @@ public class Game extends JPanel implements MouseListener {
     }
 
     private void endMsg(String message, String title) {
+        running = false;
         stopwatch.pause();
         String[] options = {"Retry", "Quit"};
         int choice = JOptionPane.showOptionDialog(
