@@ -26,9 +26,11 @@ public class Game extends JPanel implements MouseListener {
     private final int tileSize = 40; // Side length of tile (in pixels)
     private final int topMargin = 40; // Height of top margin
     private final int windowWidth = width * tileSize;
-    private final int windowHeight = height * tileSize;
+    private final int windowHeight = height * tileSize + topMargin;
 
     // Images (image setup in init)
+    private BufferedImage pause = null;
+    private BufferedImage play = null;
     private BufferedImage mine = null;
     private BufferedImage flag = null;
 
@@ -59,6 +61,8 @@ public class Game extends JPanel implements MouseListener {
         // Setting up images
         try {
             System.out.println(System.getProperty("user.dir"));
+            pause = ImageIO.read(new File("assets\\minesweeper\\pause.png"));
+            play = ImageIO.read(new File("assets\\minesweeper\\play.png"));
             mine = ImageIO.read(new File("assets\\minesweeper\\mine.png"));
             flag = ImageIO.read(new File("assets\\minesweeper\\flag.png"));
         } catch (Exception e) {
@@ -85,8 +89,13 @@ public class Game extends JPanel implements MouseListener {
         g2d.drawString(stopwatch.getTime(), (windowWidth - timeWidth) / 2, topMargin - 8);
 
         // Drawing pause button
-        g2d.fillRect(windowWidth - topMargin + 5, 5, topMargin / 2 - 10, topMargin - 10);
-        g2d.fillRect(windowWidth - (topMargin / 2) + 5, 5, topMargin / 2 - 10, topMargin - 10);
+        if (running) {
+            if (stopwatch.isPaused()) {
+                g2d.drawImage(play, windowWidth - topMargin + 5, 5, topMargin - 10, topMargin - 10, null);
+            } else {
+                g2d.drawImage(pause, windowWidth - topMargin + 5, 5, topMargin - 10, topMargin - 10, null);
+            }
+        }
 
         // Drawing main board
         for (int i = 0; i < width; i++) {
@@ -96,7 +105,7 @@ public class Game extends JPanel implements MouseListener {
                 // Drawing tile BG
                 g2d.setColor(Color.BLACK);
                 g2d.drawRect(i*tileSize, j*tileSize + topMargin, tileSize, tileSize);
-                if (running && stopwatch.isPaused()) {
+                if (stopwatch.isPaused() && running) {
                     g2d.setColor(Color.GRAY);
                     g2d.fillRect(i*tileSize, j*tileSize + topMargin, tileSize, tileSize);
                 } else {
@@ -167,8 +176,8 @@ public class Game extends JPanel implements MouseListener {
             if (SwingUtilities.isLeftMouseButton(e) && !tile.flagged) /* Can't open a flagged tile */ {
                 // Start stopwatch on first click
                 if (stopwatch.isPaused()) {
-                    stopwatch.start();
                     running = true;
+                    stopwatch.start();
                 }
 
                 // Opening tile that was clicked
@@ -191,22 +200,10 @@ public class Game extends JPanel implements MouseListener {
                 tile.flagged = !tile.flagged;
             }
         } else if (windowWidth - topMargin < e.getX() && e.getX() < windowWidth) /* Pause button is pressed */ {
-            System.out.println("Paused.");
-            stopwatch.pause();
-            int choice = JOptionPane.showOptionDialog(
-                    this,
-                    "Game Paused. Closing this window will resume the game.",
-                    "Paused",
-                    JOptionPane.YES_NO_CANCEL_OPTION,
-                    JOptionPane.WARNING_MESSAGE,
-                    null,
-                    new String[]{"Resume", "Quit"},
-                    "Resume"
-            );
-            if (choice == 1) {
-                System.exit(ABORT);
-            } else {
+            if (stopwatch.isPaused()) {
                 stopwatch.start();
+            } else {
+                stopwatch.pause();
             }
         }
     }
