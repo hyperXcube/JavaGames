@@ -86,7 +86,7 @@ public class Game extends JPanel implements MouseListener {
 
         // Drawing stopwatch
         int timeWidth = g2d.getFontMetrics().stringWidth("00:00");
-        g2d.drawString(stopwatch.getTime(), (windowWidth - timeWidth) / 2, topMargin - 8);
+        g2d.drawString(stopwatch.getFormattedTime(), (windowWidth - timeWidth) / 2, topMargin - 8);
 
         // Drawing pause button
         if (running) {
@@ -240,7 +240,7 @@ public class Game extends JPanel implements MouseListener {
     // Runs when the player wins
     private void win() {
         System.out.println("YOU WON!!");
-        endMsg("Good Job!!\nYou completed Minesweeper in " + stopwatch.getTime() + "!","You avoided all the mines!!");
+        endMsg("Good Job!!\nYou completed Minesweeper in " + stopwatch.getFormattedTime() + "!","You avoided all the mines!!");
     }
 
     // Runs when the player dies (clicks a mine)

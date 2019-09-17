@@ -22,12 +22,16 @@ public class Stopwatch {
         paused = true;
     }
 
-    public String getTime() {
+    public long getTime() {
         if (paused) {
-            return timeString(timeBeforeResume);
+            return timeBeforeResume;
         } else {
-            return timeString(timeBeforeResume + currentTimeMillis() - startTime);
+            return timeBeforeResume + currentTimeMillis() - startTime;
         }
+    }
+
+    public String getFormattedTime() {
+        return timeString(getTime());
     }
 
     // Turns time as millis into readable format
