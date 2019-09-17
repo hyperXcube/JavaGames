@@ -43,6 +43,7 @@ class Cube {
 
     void paint(Graphics2D g2d) {
         // Drawing cube
+        g2d.setColor(Color.BLACK);
         g2d.drawRect(x, y, sl, sl);
 
         // Drawing ammo #
@@ -71,7 +72,6 @@ class Cube {
         for (Laser l: lasers) {
             l.paint(g2d);
         }
-        g2d.setColor(Color.BLACK);
     }
 
     // Moves cube based on user input

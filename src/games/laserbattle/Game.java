@@ -1,6 +1,8 @@
 package games.laserbattle;
 
 import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -44,6 +46,7 @@ public class Game extends JPanel implements KeyListener {
         p2.paint(g2d);
 
         // Drawing border
+        g2d.setColor(Color.BLACK);
         g2d.setStroke(new BasicStroke(6));
         g2d.drawRect(0, 0, width, height);
     }
@@ -143,7 +146,8 @@ public class Game extends JPanel implements KeyListener {
         JFrame frame = new JFrame("Laser Battle!");
         Game laserbattle = new Game();
 
-        frame.setSize(width, height);
+        frame.getContentPane().setPreferredSize(new Dimension(width, height));
+        frame.pack();
         frame.add(laserbattle);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);

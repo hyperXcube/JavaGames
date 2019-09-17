@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import javax.swing.JOptionPane;
 import javax.swing.JFrame;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -48,7 +49,7 @@ public class Game extends JPanel {
 
     void computerPoint() throws InterruptedException {
         computerScore++;
-        if (computerScore == 10) {
+        if (computerScore == 7) {
             Sound.play("lose", "pong");
             repaint();
             endMsg("The opponent scored 10 points!", "You lost!");
@@ -60,7 +61,7 @@ public class Game extends JPanel {
 
     void playerPoint() throws InterruptedException {
         playerScore++;
-        if (playerScore == 10) {
+        if (playerScore == 7) {
             repaint();
             endMsg("You scored 10 points!", "You Won!");
         }
@@ -96,8 +97,9 @@ public class Game extends JPanel {
 
     public static void main(String[] args) throws InterruptedException {
         JFrame f = new JFrame("Pong");
-        
-        f.setSize(500,800);
+
+        f.getContentPane().setPreferredSize(new Dimension(500, 800));
+        f.pack();
         Game pong = new Game();
         f.add(pong);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

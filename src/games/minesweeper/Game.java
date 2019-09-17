@@ -3,6 +3,7 @@ package games.minesweeper;
 import games.util.Stopwatch;
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -276,7 +277,8 @@ public class Game extends JPanel implements MouseListener {
         JFrame frame = new JFrame("Minesweeper");
         Game minesweeper = new Game();
 
-        frame.setSize(minesweeper.windowWidth, minesweeper.windowHeight);
+        frame.getContentPane().setPreferredSize(new Dimension(minesweeper.windowWidth, minesweeper.windowHeight));
+        frame.pack();
         frame.add(minesweeper);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
