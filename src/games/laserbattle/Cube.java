@@ -10,6 +10,7 @@ import java.util.TimerTask;
 
 class Cube {
     static final int sl = 48; // Side length of cube
+    private final int maxAmmo = 2;
     private int x;
     private int y;
     private String dir; // Direction
@@ -17,7 +18,7 @@ class Cube {
     private boolean down = false; // Whether down button is pressed
     private boolean left = false; // Whether left button is pressed
     private boolean right = false; // Whether right button is pressed
-    private int ammo = 3;
+    private int ammo = maxAmmo;
 
     private Game parentGame;
     private final ArrayList<Laser> lasers = new ArrayList<>();
@@ -33,7 +34,7 @@ class Cube {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                if (ammo < 3) {
+                if (ammo < maxAmmo) {
                     ammo++;
                 }
             }
