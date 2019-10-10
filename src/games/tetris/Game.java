@@ -8,9 +8,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class Game extends JPanel {
-    private static final int width = 600;
-    private static final int height = 800;
-
     private Game() {
         setBackground(Color.BLACK);
     }
@@ -29,7 +26,7 @@ public class Game extends JPanel {
 
         // Frame setup
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.getContentPane().setPreferredSize(new Dimension(width, height));
+        f.getContentPane().setPreferredSize(new Dimension(Constants.width, Constants.height));
         f.pack();
         f.add(tetris);
         f.setVisible(true);
