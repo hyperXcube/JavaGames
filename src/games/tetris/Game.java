@@ -45,6 +45,12 @@ public class Game extends JPanel implements KeyListener {
         }
     }
 
+    private void checkActiveBlock() {
+        if (activeBlock == null) {
+            newActiveBlock();
+        }
+    }
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
