@@ -19,6 +19,32 @@ public class Game extends JPanel implements KeyListener {
         setBackground(Color.BLACK);
     }
 
+    private void newActiveBlock() {
+        int random = (int)(Math.random() * 7);
+        switch (random) {
+            case 0:
+                activeBlock = new Block(Tetromino.I);
+                break;
+            case 1:
+                activeBlock = new Block(Tetromino.J);
+                break;
+            case 2:
+                activeBlock = new Block(Tetromino.L);
+                break;
+            case 3:
+                activeBlock = new Block(Tetromino.O);
+                break;
+            case 4:
+                activeBlock = new Block(Tetromino.S);
+                break;
+            case 5:
+                activeBlock = new Block(Tetromino.T);
+                break;
+            case 6:
+                activeBlock = new Block(Tetromino.Z);
+        }
+    }
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
