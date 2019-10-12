@@ -5,14 +5,17 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 class Block {
-    private Rectangle[][] rects = new Rectangle[4][4];
+    private Rectangle[][] area = new Rectangle[4][4];
     private int rotation = 0;
     private Color color;
+    private Game tetris;
 
-    Block(Tetromino blockType) {
+    Block(Tetromino blockType, Game parent) {
+        tetris = parent;
+
         // Dummy code to initialize block, this needs to be changed later
         for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) rects[i][j] = new Rectangle(100, 100, 100, 100);
+            for (int j = 0; j < 4; j++) area[i][j] = new Rectangle(80, 80, 80, 80);
         }
 
         switch (blockType) {
@@ -41,13 +44,24 @@ class Block {
 
     // Moves block one tile down
     void move() {
+        Rectangle[][] newArea = area;
         for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) rects[i][j].y += Constants.TILE;
+            for (int j = 0; j < 4; j++) {
+                newArea[i][j].y += Constants.TILE;
+            }
         }
+        if (!new Rectangle(Constants.WIDTH, Constants.HEIGHT).contains(newArea[0][0])) deactivate();
+        else area = newArea;
+    }
+
+    // Moves area of block to bottomTiles and creates a new active block
+    private void deactivate() {
+        for (Rectangle r : area[rotation]) tetris.bottomTiles.put(r, color);
+        tetris.newActiveBlock();
     }
 
     void paint(Graphics2D g2d) {
-        for (Rectangle r : rects[rotation]) {
+        for (Rectangle r : area[rotation]) {
             g2d.setColor(color);
             g2d.fill(r);
             g2d.setColor(Color.WHITE);

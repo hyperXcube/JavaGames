@@ -15,35 +15,35 @@ import javax.swing.JPanel;
 
 public class Game extends JPanel implements KeyListener {
     private Block activeBlock; // Block that is in motion
-    private final HashMap<Rectangle, Color> bottomTiles = new HashMap<>(); // All of the tiles on the bottom
+    final HashMap<Rectangle, Color> bottomTiles = new HashMap<>(); // All of the tiles on the bottom
 
     private Game() {
         setBackground(Color.BLACK);
     }
 
-    private void newActiveBlock() {
+    void newActiveBlock() {
         int random = (int)(Math.random() * 7);
         switch (random) {
             case 0:
-                activeBlock = new Block(Tetromino.I);
+                activeBlock = new Block(Tetromino.I, this);
                 break;
             case 1:
-                activeBlock = new Block(Tetromino.J);
+                activeBlock = new Block(Tetromino.J, this);
                 break;
             case 2:
-                activeBlock = new Block(Tetromino.L);
+                activeBlock = new Block(Tetromino.L, this);
                 break;
             case 3:
-                activeBlock = new Block(Tetromino.O);
+                activeBlock = new Block(Tetromino.O, this);
                 break;
             case 4:
-                activeBlock = new Block(Tetromino.S);
+                activeBlock = new Block(Tetromino.S, this);
                 break;
             case 5:
-                activeBlock = new Block(Tetromino.T);
+                activeBlock = new Block(Tetromino.T, this);
                 break;
             case 6:
-                activeBlock = new Block(Tetromino.Z);
+                activeBlock = new Block(Tetromino.Z, this);
         }
     }
 
@@ -52,7 +52,12 @@ public class Game extends JPanel implements KeyListener {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         activeBlock.paint(g2d);
-        for (Rectangle r : bottomTiles.keySet()) g2d.draw(r);
+        for (Rectangle r : bottomTiles.keySet()) {
+            g2d.setColor(bottomTiles.get(r));
+            g2d.fill(r);
+            g2d.setColor(Color.WHITE);
+            g2d.draw(r);
+        }
     }
 
     // KeyListener methods (only keyPressed is needed)
