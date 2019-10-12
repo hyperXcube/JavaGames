@@ -8,6 +8,8 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -45,12 +47,6 @@ public class Game extends JPanel implements KeyListener {
         }
     }
 
-    private void checkActiveBlock() {
-        if (activeBlock == null) {
-            newActiveBlock();
-        }
-    }
-
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -65,7 +61,7 @@ public class Game extends JPanel implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent keyEvent) {
-        // TODO: Handle rotation inputs
+        // TODO: Handle inputs
     }
 
     @Override
@@ -83,6 +79,16 @@ public class Game extends JPanel implements KeyListener {
         f.pack();
         f.add(tetris);
         f.setVisible(true);
+
+        tetris.newActiveBlock();
+        Timer timer = new Timer();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                tetris.activeBlock.move();
+            }
+        };
+        timer.schedule(task, 0, 500);
 
         while (true) {
             tetris.repaint();

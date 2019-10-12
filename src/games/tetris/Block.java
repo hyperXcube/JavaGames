@@ -3,8 +3,6 @@ package games.tetris;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.util.Timer;
-import java.util.TimerTask;
 
 class Block {
     private Rectangle[][] rects = new Rectangle[4][4];
@@ -12,6 +10,11 @@ class Block {
     private Color color;
 
     Block(Tetromino blockType) {
+        // Dummy code to initialize block, this needs to be changed later
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) rects[i][j] = new Rectangle(100, 100, 100, 100);
+        }
+
         switch (blockType) {
             case I:
                 color = new Color(135, 231, 235);
@@ -32,22 +35,23 @@ class Block {
                 color = new Color(128, 0, 128);
                 break;
             case Z:
-                break;
+                color = new Color(220, 20, 60);
         }
+    }
 
-        TimerTask move = new TimerTask() {
-            @Override
-            public void run() {
-                for (Rectangle[] obj : rects) {
-                    for (Rectangle r : obj) r.y += Constants.TILE;
-                }
-            }
-        };
-        (new Timer()).schedule(move, 0, 500);
+    // Moves block one tile down
+    void move() {
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) rects[i][j].y += Constants.TILE;
+        }
     }
 
     void paint(Graphics2D g2d) {
-        g2d.setColor(color);
-        for (Rectangle r : rects[rotation]) g2d.draw(r);
+        for (Rectangle r : rects[rotation]) {
+            g2d.setColor(color);
+            g2d.fill(r);
+            g2d.setColor(Color.WHITE);
+            g2d.draw(r);
+        }
     }
 }

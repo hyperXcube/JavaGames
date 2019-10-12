@@ -1,5 +1,4 @@
-import java.awt.Point;
-import java.awt.Color;
+package games.tetris;
 
 /**
  * All the types of blocks in Tetris
