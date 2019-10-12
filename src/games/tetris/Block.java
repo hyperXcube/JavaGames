@@ -44,14 +44,22 @@ class Block {
 
     // Moves block one tile down
     void move() {
-        Rectangle[][] newArea = area;
+        // Checks to see if block can be moved one tile down
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                newArea[i][j].y += Constants.TILE;
+                Rectangle rect = area[i][j];
+                Rectangle newRect = new Rectangle(rect.x, rect.y, rect.width, rect.height);
+                newRect.y += Constants.TILE;
+                if (!new Rectangle(Constants.WIDTH, Constants.HEIGHT).contains(newRect)) {
+                    deactivate();
+                    return;
+                }
             }
         }
-        if (!new Rectangle(Constants.WIDTH, Constants.HEIGHT).contains(newArea[0][0])) deactivate();
-        else area = newArea;
+        // If the method doesn't return, the block is moved one tile down
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) area[i][j].y += Constants.TILE;
+        }
     }
 
     // Moves area of block to bottomTiles and creates a new active block
