@@ -3,20 +3,22 @@ package games.tetris;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.geom.AffineTransform;
 
 class Block {
-    private Rectangle[][] area = new Rectangle[4][4];
-    private int rotation = 0;
+    private Rectangle[] area = new Rectangle[4];
     private Color color;
+    private final AffineTransform transform = new AffineTransform();
     private Game tetris;
 
     Block(Tetromino blockType, Game parent) {
         tetris = parent;
 
         // Dummy code to initialize block, this needs to be changed later
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) area[i][j] = new Rectangle(80, 80, 80, 80);
-        }
+        area[0] = new Rectangle(80, 80, 40, 40);
+        area[1] = new Rectangle(120, 80, 40, 40);
+        area[2] = new Rectangle(160, 80, 40, 40);
+        area[3] = new Rectangle(120, 120, 40, 40);
 
         switch (blockType) {
             case I:
@@ -43,33 +45,33 @@ class Block {
     }
 
     // Moves block one tile down
-    void move() {
+    synchronized void move() {
         // Checks to see if block can be moved one tile down
         for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                Rectangle rect = area[i][j];
-                Rectangle newRect = new Rectangle(rect.x, rect.y, rect.width, rect.height);
-                newRect.y += Constants.TILE;
-                if (!new Rectangle(Constants.WIDTH, Constants.HEIGHT).contains(newRect)) {
-                    deactivate();
-                    return;
-                }
+            Rectangle rect = area[i];
+            Rectangle newRect = new Rectangle(rect.x, rect.y, rect.width, rect.height);
+            newRect.y += Constants.TILE;
+            if (!new Rectangle(Constants.WIDTH, Constants.HEIGHT).contains(newRect)) {
+                deactivate();
+                return;
             }
         }
         // If the method doesn't return, the block is moved one tile down
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) area[i][j].y += Constants.TILE;
-        }
+        for (int i = 0; i < 4; i++) area[i].y += Constants.TILE;
     }
 
     // Moves area of block to bottomTiles and creates a new active block
     private void deactivate() {
-        for (Rectangle r : area[rotation]) tetris.bottomTiles.put(r, color);
+        for (Rectangle r : area) tetris.bottomTiles.put(r, color);
         tetris.newActiveBlock();
     }
 
+    void rotate() {
+        // Add handling of rotation
+    }
+
     void paint(Graphics2D g2d) {
-        for (Rectangle r : area[rotation]) {
+        for (Rectangle r : area) {
             g2d.setColor(color);
             g2d.fill(r);
             g2d.setColor(Color.WHITE);
