@@ -11,7 +11,7 @@ class Block {
     private final AffineTransform transform = new AffineTransform();
     private Game tetris;
 
-    Block(Tetromino blockType, Game parent) {
+    Block(Game parent) {
         tetris = parent;
 
         // Dummy code to initialize block, this needs to be changed later
@@ -20,14 +20,16 @@ class Block {
         area[2] = new Rectangle(160, 80, 40, 40);
         area[3] = new Rectangle(120, 120, 40, 40);
 
+        int blockType = (int) (Math.random() * 7);
         color = switch (blockType) {
-            case I -> new Color(135, 231, 235);
-            case J -> new Color(0, 0, 55);
-            case L -> new Color(255, 163, 51);
-            case O -> new Color(253, 255, 0);
-            case S -> new Color(64, 255, 0);
-            case T -> new Color(128, 0, 128);
-            case Z -> new Color(220, 20, 60);
+            case 0 -> new Color(135, 231, 235); // I Block
+            case 1 -> new Color(0, 0, 55); // J Block
+            case 2 -> new Color(255, 163, 51); // L Block
+            case 3 -> new Color(253, 255, 0); // O Block
+            case 4 -> new Color(64, 255, 0); // S Block
+            case 5 -> new Color(128, 0, 128); // T Block
+            case 6 -> new Color(220, 20, 60); // Z Block
+            default -> throw new IllegalArgumentException("Unexpected random value: " + blockType);
         };
     }
 

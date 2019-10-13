@@ -24,18 +24,7 @@ public class Game extends JPanel implements KeyListener {
     }
 
     void newActiveBlock() {
-        int random = (int) (Math.random() * 7);
-        Tetromino blockType = switch (random) {
-            case 0 -> Tetromino.I;
-            case 1 -> Tetromino.J;
-            case 2 -> Tetromino.L;
-            case 3 -> Tetromino.O;
-            case 4 -> Tetromino.S;
-            case 5 -> Tetromino.T;
-            case 6 -> Tetromino.Z;
-            default -> throw new IllegalArgumentException("Unexpected random value: " + random);
-        };
-        activeBlock = new Block(blockType, this);
+        activeBlock = new Block(this);
     }
 
     @Override
