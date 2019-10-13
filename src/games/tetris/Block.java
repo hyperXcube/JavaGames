@@ -20,28 +20,15 @@ class Block {
         area[2] = new Rectangle(160, 80, 40, 40);
         area[3] = new Rectangle(120, 120, 40, 40);
 
-        switch (blockType) {
-            case I:
-                color = new Color(135, 231, 235);
-                break;
-            case J:
-                color = new Color(0, 0, 55);
-                break;
-            case L:
-                color = new Color(255, 163, 51);
-                break;
-            case O:
-                color = new Color(253, 255, 0);
-                break;
-            case S:
-                color = new Color(64, 255, 0);
-                break;
-            case T:
-                color = new Color(128, 0, 128);
-                break;
-            case Z:
-                color = new Color(220, 20, 60);
-        }
+        color = switch (blockType) {
+            case I -> new Color(135, 231, 235);
+            case J -> new Color(0, 0, 55);
+            case L -> new Color(255, 163, 51);
+            case O -> new Color(253, 255, 0);
+            case S -> new Color(64, 255, 0);
+            case T -> new Color(128, 0, 128);
+            case Z -> new Color(220, 20, 60);
+        };
     }
 
     // Moves block one tile down

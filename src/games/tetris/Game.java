@@ -24,29 +24,18 @@ public class Game extends JPanel implements KeyListener {
     }
 
     void newActiveBlock() {
-        int random = (int)(Math.random() * 7);
-        switch (random) {
-            case 0:
-                activeBlock = new Block(Tetromino.I, this);
-                break;
-            case 1:
-                activeBlock = new Block(Tetromino.J, this);
-                break;
-            case 2:
-                activeBlock = new Block(Tetromino.L, this);
-                break;
-            case 3:
-                activeBlock = new Block(Tetromino.O, this);
-                break;
-            case 4:
-                activeBlock = new Block(Tetromino.S, this);
-                break;
-            case 5:
-                activeBlock = new Block(Tetromino.T, this);
-                break;
-            case 6:
-                activeBlock = new Block(Tetromino.Z, this);
-        }
+        int random = (int) (Math.random() * 7);
+        Tetromino blockType = switch (random) {
+            case 0 -> Tetromino.I;
+            case 1 -> Tetromino.J;
+            case 2 -> Tetromino.L;
+            case 3 -> Tetromino.O;
+            case 4 -> Tetromino.S;
+            case 5 -> Tetromino.T;
+            case 6 -> Tetromino.Z;
+            default -> throw new IllegalArgumentException("Unexpected random value: " + random);
+        };
+        activeBlock = new Block(blockType, this);
     }
 
     @Override
@@ -69,11 +58,8 @@ public class Game extends JPanel implements KeyListener {
     @Override
     public void keyPressed(KeyEvent keyEvent) {
         switch (keyEvent.getKeyCode()) {
-            case KeyEvent.VK_UP:
-                activeBlock.rotate();
-                break;
-            case KeyEvent.VK_DOWN:
-                activeBlock.move();
+            case KeyEvent.VK_UP -> activeBlock.rotate();
+            case KeyEvent.VK_DOWN -> activeBlock.move();
         }
     }
 
