@@ -19,6 +19,8 @@ public class Game extends JPanel implements KeyListener {
 
     private Game() {
         setBackground(Color.BLACK);
+        addKeyListener(this);
+        setFocusable(true);
     }
 
     void newActiveBlock() {
@@ -66,7 +68,13 @@ public class Game extends JPanel implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent keyEvent) {
-        // TODO: Handle inputs
+        switch (keyEvent.getKeyCode()) {
+            case KeyEvent.VK_UP:
+                activeBlock.rotate();
+                break;
+            case KeyEvent.VK_DOWN:
+                activeBlock.move();
+        }
     }
 
     @Override
