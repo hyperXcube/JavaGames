@@ -87,9 +87,18 @@ class Block {
         for (int i = 0; i < 4; i++) {
             Rectangle rect = area[i];
             Rectangle newRect = new Rectangle(rect.x, rect.y + Constants.TILE, rect.width, rect.height);
+
+            // If moved block will go out of the screen
             if (!new Rectangle(Constants.WIDTH, Constants.HEIGHT).contains(newRect)) {
                 deactivate();
                 return;
+            }
+            // If moved block has reached the bottom
+            for (Rectangle r : tetris.bottomTiles.keySet()) {
+                if (r.contains(newRect)) {
+                    deactivate();
+                    return;
+                }
             }
         }
         // If the method doesn't return, the block is moved one tile down
