@@ -25,7 +25,7 @@ public class Game extends JPanel implements KeyListener {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                activeBlock.move();
+                activeBlock.moveDown();
             }
         };
         timer.schedule(task, 0, 500);
@@ -56,7 +56,7 @@ public class Game extends JPanel implements KeyListener {
     public void keyPressed(KeyEvent keyEvent) {
         switch (keyEvent.getKeyCode()) {
             case KeyEvent.VK_UP -> activeBlock.rotate();
-            case KeyEvent.VK_DOWN -> activeBlock.move();
+            case KeyEvent.VK_DOWN -> activeBlock.moveDown();
         }
     }
 

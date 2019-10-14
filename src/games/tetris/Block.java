@@ -6,10 +6,10 @@ import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 
 class Block {
-    private Rectangle[] area = new Rectangle[4];
-    private Color color;
+    private final Rectangle[] area = new Rectangle[4];
+    private final Color color;
     private final AffineTransform transform = new AffineTransform();
-    private Game tetris;
+    private final Game tetris;
 
     Block(Game parent) {
         tetris = parent;
@@ -82,7 +82,7 @@ class Block {
     }
 
     // Moves block one tile down
-    synchronized void move() {
+    synchronized void moveDown() {
         // Checks to see if block can be moved one tile down
         for (int i = 0; i < 4; i++) {
             Rectangle rect = area[i];
@@ -93,7 +93,7 @@ class Block {
                 deactivate();
                 return;
             }
-            // If moved block has reached the bottom
+            // If moved block has reached the bottom area
             for (Rectangle r : tetris.bottomTiles.keySet()) {
                 if (r.contains(newRect)) {
                     deactivate();
@@ -105,14 +105,14 @@ class Block {
         for (int i = 0; i < 4; i++) area[i].y += Constants.TILE;
     }
 
-    // Moves area of block to bottomTiles and creates a new active block
+    // Adds area of block to bottomTiles and replaces the active block
     private void deactivate() {
         for (Rectangle r : area) tetris.bottomTiles.put(r, color);
         tetris.newActiveBlock();
     }
 
     void rotate() {
-        // Add handling of rotation
+        // TODO: Add handling of rotation
     }
 
     void paint(Graphics2D g2d) {
