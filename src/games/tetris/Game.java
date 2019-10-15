@@ -31,11 +31,14 @@ public class Game extends JPanel implements KeyListener {
         timer.schedule(task, 0, 500);
     }
 
-    private void blockDown() {
-        if (!activeBlock.moveDown()) {
+    // Moves block down, checking to see if the active block should be replaced. Returns result of moveDown
+    private boolean blockDown() {
+        boolean moveSuccessful = activeBlock.moveDown();
+        if (!moveSuccessful) {
             activeBlock.deactivate();
             activeBlock = new Block(this);
         }
+        return moveSuccessful;
     }
 
     @Override
@@ -61,12 +64,9 @@ public class Game extends JPanel implements KeyListener {
             case KeyEvent.VK_UP -> activeBlock.rotate();
             case KeyEvent.VK_DOWN -> blockDown();
             case KeyEvent.VK_SPACE -> {
-                while (true) {
-                    if (!activeBlock.moveDown()) {
-                        activeBlock.deactivate();
-                        activeBlock = new Block(this);
-                        break;
-                    }
+                boolean keepMovingDown = true;
+                while (keepMovingDown) {
+                    keepMovingDown = blockDown();
                 }
             }
         }
