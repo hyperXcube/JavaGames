@@ -1,5 +1,6 @@
 package games.tetris;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -45,6 +46,7 @@ public class Game extends JPanel implements KeyListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
+        g2d.setStroke(new BasicStroke(2));
         activeBlock.paint(g2d);
         for (Rectangle r : bottomTiles.keySet()) {
             g2d.setColor(bottomTiles.get(r));
@@ -69,6 +71,8 @@ public class Game extends JPanel implements KeyListener {
                     keepMovingDown = blockDown();
                 }
             }
+            case KeyEvent.VK_LEFT -> activeBlock.moveLeft();
+            case KeyEvent.VK_RIGHT -> activeBlock.moveRight();
         }
     }
 
