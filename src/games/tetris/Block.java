@@ -81,33 +81,31 @@ class Block {
         }
     }
 
-    // Moves block one tile down
-    void moveDown() {
+    // Moves block one tile down, returns whether move was successful
+    boolean moveDown() {
         // Checks to see if block can be moved one tile down
         for (Rectangle r : area) {
             Rectangle newRect = new Rectangle(r.x, r.y + Constants.TILE, r.width, r.height);
 
             // If moved block will go out of the screen
             if (!new Rectangle(Constants.WIDTH, Constants.HEIGHT).contains(newRect)) {
-                deactivate();
-                return;
+                return false;
             }
             // If moved block has reached the bottom area
             for (Rectangle b : tetris.bottomTiles.keySet()) {
                 if (b.contains(newRect)) {
-                    deactivate();
-                    return;
+                    return false;
                 }
             }
         }
         // If the method doesn't return, the block is moved one tile down
         for (int i = 0; i < 4; i++) area[i].y += Constants.TILE;
+        return true;
     }
 
     // Adds area of block to bottomTiles and replaces the active block
-    private void deactivate() {
+    void deactivate() {
         for (Rectangle r : area) tetris.bottomTiles.put(r, color);
-        tetris.newActiveBlock();
     }
 
     void rotate() {

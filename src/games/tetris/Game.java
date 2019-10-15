@@ -20,19 +20,22 @@ public class Game extends JPanel implements KeyListener {
         addKeyListener(this);
         setFocusable(true);
 
-        newActiveBlock();
+        activeBlock = new Block(this);
         Timer timer = new Timer();
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                activeBlock.moveDown();
+                blockDown();
             }
         };
         timer.schedule(task, 0, 500);
     }
 
-    void newActiveBlock() {
-        activeBlock = new Block(this);
+    private void blockDown() {
+        if (!activeBlock.moveDown()) {
+            activeBlock.deactivate();
+            activeBlock = new Block(this);
+        }
     }
 
     @Override
@@ -56,7 +59,16 @@ public class Game extends JPanel implements KeyListener {
     public void keyPressed(KeyEvent keyEvent) {
         switch (keyEvent.getKeyCode()) {
             case KeyEvent.VK_UP -> activeBlock.rotate();
-            case KeyEvent.VK_DOWN -> activeBlock.moveDown();
+            case KeyEvent.VK_DOWN -> blockDown();
+            case KeyEvent.VK_SPACE -> {
+                while (true) {
+                    if (!activeBlock.moveDown()) {
+                        activeBlock.deactivate();
+                        activeBlock = new Block(this);
+                        break;
+                    }
+                }
+            }
         }
     }
 
