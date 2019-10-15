@@ -12,6 +12,9 @@ class Block {
     private final Game tetris;
 
     Block(Game parent) {
+        double random = Math.random();
+        int startPos = (int) (random * (Constants.WIDTH - Constants.TILE * 3)) - (int) (random * (Constants.WIDTH - Constants.TILE * 3)) % Constants.TILE;
+
         tetris = parent;
 
         area[0] = new Rectangle(Constants.TILE, Constants.TILE);
@@ -24,58 +27,58 @@ class Block {
             case 0 -> {
                 // I block
                 color = new Color(135, 231, 235);
-                area[0].setLocation(80, 0);
-                area[1].setLocation(120, 0);
-                area[2].setLocation(160, 0);
-                area[3].setLocation(200, 0);
+                area[0].setLocation(startPos, 0);
+                area[1].setLocation(startPos + Constants.TILE, 0);
+                area[2].setLocation(startPos + Constants.TILE * 2, 0);
+                area[3].setLocation(startPos + Constants.TILE * 3, 0);
             }
             case 1 -> {
                 // J block
                 color = new Color(0, 0, 55);
-                area[0].setLocation(80, 0);
-                area[1].setLocation(80, Constants.TILE);
-                area[2].setLocation(120, Constants.TILE);
-                area[3].setLocation(160, Constants.TILE);
+                area[0].setLocation(startPos, 0);
+                area[1].setLocation(startPos, Constants.TILE);
+                area[2].setLocation(startPos + Constants.TILE, Constants.TILE);
+                area[3].setLocation(startPos + Constants.TILE * 2, Constants.TILE);
             }
             case 2 -> {
                 // L block
                 color = new Color(255, 163, 51);
-                area[0].setLocation(80, Constants.TILE);
-                area[1].setLocation(120, Constants.TILE);
-                area[2].setLocation(160, Constants.TILE);
-                area[3].setLocation(160, 0);
+                area[0].setLocation(startPos, Constants.TILE);
+                area[1].setLocation(startPos + Constants.TILE, Constants.TILE);
+                area[2].setLocation(startPos + Constants.TILE * 2, Constants.TILE);
+                area[3].setLocation(startPos + Constants.TILE * 2, 0);
             }
             case 3 -> {
                 // O block
                 color = new Color(253, 255, 0);
-                area[0].setLocation(80, 0);
-                area[1].setLocation(120, 0);
-                area[2].setLocation(80, Constants.TILE);
-                area[3].setLocation(120, Constants.TILE);
+                area[0].setLocation(startPos, 0);
+                area[1].setLocation(startPos + Constants.TILE, 0);
+                area[2].setLocation(startPos, Constants.TILE);
+                area[3].setLocation(startPos + Constants.TILE, Constants.TILE);
             }
             case 4 -> {
                 // S block
                 color = new Color(64, 255, 0);
-                area[0].setLocation(80, Constants.TILE);
-                area[1].setLocation(120, Constants.TILE);
-                area[2].setLocation(120, 0);
-                area[3].setLocation(160, 0);
+                area[0].setLocation(startPos, Constants.TILE);
+                area[1].setLocation(startPos + Constants.TILE, Constants.TILE);
+                area[2].setLocation(startPos + Constants.TILE, 0);
+                area[3].setLocation(startPos + Constants.TILE * 2, 0);
             }
             case 5 -> {
                 // T block
                 color = new Color(128, 0, 128);
-                area[0] = new Rectangle(80, 80, Constants.TILE, Constants.TILE);
-                area[1] = new Rectangle(120, 80, Constants.TILE, Constants.TILE);
-                area[2] = new Rectangle(160, 80, Constants.TILE, Constants.TILE);
-                area[3] = new Rectangle(120, 120, Constants.TILE, Constants.TILE);
+                area[0].setLocation(startPos, 0);
+                area[1].setLocation(startPos + Constants.TILE, 0);
+                area[2].setLocation(startPos + Constants.TILE * 2, 0);
+                area[3].setLocation(startPos + Constants.TILE, Constants.TILE);
             }
             case 6 -> {
                 // Z block
                 color = new Color(220, 20, 60);
-                area[0].setLocation(80, 0);
-                area[1].setLocation(120, 0);
-                area[2].setLocation(120, Constants.TILE);
-                area[3].setLocation(160, Constants.TILE);
+                area[0].setLocation(startPos, 0);
+                area[1].setLocation(startPos + Constants.TILE, 0);
+                area[2].setLocation(startPos + Constants.TILE, Constants.TILE);
+                area[3].setLocation(startPos + Constants.TILE * 2, Constants.TILE);
             }
             default -> throw new IllegalArgumentException("Unexpected random value: " + blockType);
         }
