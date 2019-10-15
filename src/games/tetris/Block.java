@@ -103,6 +103,46 @@ class Block {
         return true;
     }
 
+    // Moves the block one tile diagonally
+    void moveLeft() {
+        for (Rectangle r: area) {
+            Rectangle newRect = new Rectangle(r.x - Constants.TILE, r.y, r.width, r.height);
+
+            // If moved block will go out of the screen
+            if (!new Rectangle(Constants.WIDTH, Constants.HEIGHT).contains(newRect)) {
+                return;
+            }
+            // If moved block has reached the bottom area
+            for (Rectangle b : tetris.bottomTiles.keySet()) {
+                if (b.contains(newRect)) {
+                    return;
+                }
+            }
+        }
+        // If the method doesn't return, the block is moved one tile right
+        for (int i = 0; i < 4; i++) area[i].x -= Constants.TILE;
+    }
+
+    // Moves the block one tile right
+    void moveRight() {
+        for (Rectangle r: area) {
+            Rectangle newRect = new Rectangle(r.x + Constants.TILE, r.y, r.width, r.height);
+
+            // If moved block will go out of the screen
+            if (!new Rectangle(Constants.WIDTH, Constants.HEIGHT).contains(newRect)) {
+                return;
+            }
+            // If moved block has reached the right side
+            for (Rectangle b : tetris.bottomTiles.keySet()) {
+                if (b.contains(newRect)) {
+                    return;
+                }
+            }
+        }
+        // If the method doesn't return, the block is moved one tile right
+        for (int i = 0; i < 4; i++) area[i].x += Constants.TILE;
+    }
+
     // Adds area of block to bottomTiles and replaces the active block
     void deactivate() {
         for (Rectangle r : area) tetris.bottomTiles.put(r, color);
