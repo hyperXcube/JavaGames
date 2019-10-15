@@ -82,11 +82,10 @@ class Block {
     }
 
     // Moves block one tile down
-    synchronized void moveDown() {
+    void moveDown() {
         // Checks to see if block can be moved one tile down
-        for (int i = 0; i < 4; i++) {
-            Rectangle rect = area[i];
-            Rectangle newRect = new Rectangle(rect.x, rect.y + Constants.TILE, rect.width, rect.height);
+        for (Rectangle r : area) {
+            Rectangle newRect = new Rectangle(r.x, r.y + Constants.TILE, r.width, r.height);
 
             // If moved block will go out of the screen
             if (!new Rectangle(Constants.WIDTH, Constants.HEIGHT).contains(newRect)) {
@@ -94,8 +93,8 @@ class Block {
                 return;
             }
             // If moved block has reached the bottom area
-            for (Rectangle r : tetris.bottomTiles.keySet()) {
-                if (r.contains(newRect)) {
+            for (Rectangle b : tetris.bottomTiles.keySet()) {
+                if (b.contains(newRect)) {
                     deactivate();
                     return;
                 }
