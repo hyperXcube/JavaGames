@@ -92,17 +92,7 @@ class Block {
         // Checks to see if block can be moved one tile down
         for (Rectangle r : area) {
             Rectangle newRect = new Rectangle(r.x, r.y + TILE, r.width, r.height);
-
-            // If moved block will go out of the screen
-            if (!new Rectangle(WIDTH, HEIGHT).contains(newRect)) {
-                return false;
-            }
-            // If moved block has reached the bottom area
-            for (Rectangle b : tetris.bottomTiles.keySet()) {
-                if (b.contains(newRect)) {
-                    return false;
-                }
-            }
+            if (isInvalid(newRect)) return false;
         }
         // If the method doesn't return, the block is moved one tile down
         for (int i = 0; i < 4; i++) area[i].y += TILE;
@@ -113,17 +103,7 @@ class Block {
     void moveLeft() {
         for (Rectangle r: area) {
             Rectangle newRect = new Rectangle(r.x - TILE, r.y, r.width, r.height);
-
-            // If moved block will go out of the screen
-            if (!new Rectangle(WIDTH, HEIGHT).contains(newRect)) {
-                return;
-            }
-            // If moved block has reached the bottom area
-            for (Rectangle b : tetris.bottomTiles.keySet()) {
-                if (b.contains(newRect)) {
-                    return;
-                }
-            }
+            if (isInvalid(newRect)) return;
         }
         // If the method doesn't return, the block is moved one tile right
         for (int i = 0; i < 4; i++) area[i].x -= TILE;
@@ -133,20 +113,21 @@ class Block {
     void moveRight() {
         for (Rectangle r: area) {
             Rectangle newRect = new Rectangle(r.x + TILE, r.y, r.width, r.height);
-
-            // If moved block will go out of the screen
-            if (!new Rectangle(WIDTH, HEIGHT).contains(newRect)) {
-                return;
-            }
-            // If moved block has reached the right side
-            for (Rectangle b : tetris.bottomTiles.keySet()) {
-                if (b.contains(newRect)) {
-                    return;
-                }
-            }
+            if (isInvalid(newRect)) return;
         }
         // If the method doesn't return, the block is moved one tile right
         for (int i = 0; i < 4; i++) area[i].x += TILE;
+    }
+
+    // Checks if given rectangle can exist
+    private boolean isInvalid(Rectangle r) {
+        // If moved block will go out of the screen
+        if (!new Rectangle(WIDTH, HEIGHT).contains(r)) return true;
+        // If moved block has reached the bottom area
+        for (Rectangle b : tetris.bottomTiles.keySet()) {
+            if (b.contains(r)) return true;
+        }
+        return false;
     }
 
     // Adds area of block to bottomTiles and replaces the active block
