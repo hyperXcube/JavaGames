@@ -13,9 +13,6 @@ class Block {
     private final Game tetris;
 
     Block(Game parent) {
-        double random = Math.random();
-        int startPos = (int) (random * (WIDTH - TILE * 3)) - (int) (random * (WIDTH - TILE * 3)) % TILE;
-
         tetris = parent;
 
         area[0] = new Rectangle(TILE, TILE);
@@ -24,6 +21,11 @@ class Block {
         area[3] = new Rectangle(TILE, TILE);
 
         int blockType = (int) (Math.random() * 7);
+
+        int startPos;
+        if (blockType == 0) startPos = (int) (Math.random() * (WIDTH / TILE - 4)) * TILE;
+        else startPos = (int) (Math.random() * (WIDTH / TILE - 3)) * TILE;
+
         switch (blockType) {
             case 0 -> {
                 // I block
