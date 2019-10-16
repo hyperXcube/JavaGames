@@ -33,7 +33,7 @@ public class Game extends JPanel implements KeyListener {
     }
 
     // Moves block down, checking to see if the active block should be replaced. Returns result of moveDown
-    private boolean blockDown() {
+    private boolean blockDown()  {
         boolean moveSuccessful = activeBlock.moveDown();
         if (!moveSuccessful) {
             activeBlock.deactivate();
