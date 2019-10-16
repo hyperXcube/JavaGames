@@ -1,5 +1,6 @@
 package games.tetris;
 
+import static games.tetris.Constants.*;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -13,14 +14,14 @@ class Block {
 
     Block(Game parent) {
         double random = Math.random();
-        int startPos = (int) (random * (Constants.WIDTH - Constants.TILE * 3)) - (int) (random * (Constants.WIDTH - Constants.TILE * 3)) % Constants.TILE;
+        int startPos = (int) (random * (WIDTH - TILE * 3)) - (int) (random * (WIDTH - TILE * 3)) % TILE;
 
         tetris = parent;
 
-        area[0] = new Rectangle(Constants.TILE, Constants.TILE);
-        area[1] = new Rectangle(Constants.TILE, Constants.TILE);
-        area[2] = new Rectangle(Constants.TILE, Constants.TILE);
-        area[3] = new Rectangle(Constants.TILE, Constants.TILE);
+        area[0] = new Rectangle(TILE, TILE);
+        area[1] = new Rectangle(TILE, TILE);
+        area[2] = new Rectangle(TILE, TILE);
+        area[3] = new Rectangle(TILE, TILE);
 
         int blockType = (int) (Math.random() * 7);
         switch (blockType) {
@@ -28,57 +29,57 @@ class Block {
                 // I block
                 color = new Color(135, 231, 235);
                 area[0].setLocation(startPos, 0);
-                area[1].setLocation(startPos + Constants.TILE, 0);
-                area[2].setLocation(startPos + Constants.TILE * 2, 0);
-                area[3].setLocation(startPos + Constants.TILE * 3, 0);
+                area[1].setLocation(startPos + TILE, 0);
+                area[2].setLocation(startPos + TILE * 2, 0);
+                area[3].setLocation(startPos + TILE * 3, 0);
             }
             case 1 -> {
                 // J block
                 color = new Color(0, 0, 55);
                 area[0].setLocation(startPos, 0);
-                area[1].setLocation(startPos, Constants.TILE);
-                area[2].setLocation(startPos + Constants.TILE, Constants.TILE);
-                area[3].setLocation(startPos + Constants.TILE * 2, Constants.TILE);
+                area[1].setLocation(startPos, TILE);
+                area[2].setLocation(startPos + TILE, TILE);
+                area[3].setLocation(startPos + TILE * 2, TILE);
             }
             case 2 -> {
                 // L block
                 color = new Color(255, 163, 51);
-                area[0].setLocation(startPos, Constants.TILE);
-                area[1].setLocation(startPos + Constants.TILE, Constants.TILE);
-                area[2].setLocation(startPos + Constants.TILE * 2, Constants.TILE);
-                area[3].setLocation(startPos + Constants.TILE * 2, 0);
+                area[0].setLocation(startPos, TILE);
+                area[1].setLocation(startPos + TILE, TILE);
+                area[2].setLocation(startPos + TILE * 2, TILE);
+                area[3].setLocation(startPos + TILE * 2, 0);
             }
             case 3 -> {
                 // O block
                 color = new Color(253, 255, 0);
                 area[0].setLocation(startPos, 0);
-                area[1].setLocation(startPos + Constants.TILE, 0);
-                area[2].setLocation(startPos, Constants.TILE);
-                area[3].setLocation(startPos + Constants.TILE, Constants.TILE);
+                area[1].setLocation(startPos + TILE, 0);
+                area[2].setLocation(startPos, TILE);
+                area[3].setLocation(startPos + TILE, TILE);
             }
             case 4 -> {
                 // S block
                 color = new Color(64, 255, 0);
-                area[0].setLocation(startPos, Constants.TILE);
-                area[1].setLocation(startPos + Constants.TILE, Constants.TILE);
-                area[2].setLocation(startPos + Constants.TILE, 0);
-                area[3].setLocation(startPos + Constants.TILE * 2, 0);
+                area[0].setLocation(startPos, TILE);
+                area[1].setLocation(startPos + TILE, TILE);
+                area[2].setLocation(startPos + TILE, 0);
+                area[3].setLocation(startPos + TILE * 2, 0);
             }
             case 5 -> {
                 // T block
                 color = new Color(128, 0, 128);
                 area[0].setLocation(startPos, 0);
-                area[1].setLocation(startPos + Constants.TILE, 0);
-                area[2].setLocation(startPos + Constants.TILE * 2, 0);
-                area[3].setLocation(startPos + Constants.TILE, Constants.TILE);
+                area[1].setLocation(startPos + TILE, 0);
+                area[2].setLocation(startPos + TILE * 2, 0);
+                area[3].setLocation(startPos + TILE, TILE);
             }
             case 6 -> {
                 // Z block
                 color = new Color(220, 20, 60);
                 area[0].setLocation(startPos, 0);
-                area[1].setLocation(startPos + Constants.TILE, 0);
-                area[2].setLocation(startPos + Constants.TILE, Constants.TILE);
-                area[3].setLocation(startPos + Constants.TILE * 2, Constants.TILE);
+                area[1].setLocation(startPos + TILE, 0);
+                area[2].setLocation(startPos + TILE, TILE);
+                area[3].setLocation(startPos + TILE * 2, TILE);
             }
             default -> throw new IllegalArgumentException("Unexpected random value: " + blockType);
         }
@@ -88,10 +89,10 @@ class Block {
     boolean moveDown() {
         // Checks to see if block can be moved one tile down
         for (Rectangle r : area) {
-            Rectangle newRect = new Rectangle(r.x, r.y + Constants.TILE, r.width, r.height);
+            Rectangle newRect = new Rectangle(r.x, r.y + TILE, r.width, r.height);
 
             // If moved block will go out of the screen
-            if (!new Rectangle(Constants.WIDTH, Constants.HEIGHT).contains(newRect)) {
+            if (!new Rectangle(WIDTH, HEIGHT).contains(newRect)) {
                 return false;
             }
             // If moved block has reached the bottom area
@@ -102,17 +103,17 @@ class Block {
             }
         }
         // If the method doesn't return, the block is moved one tile down
-        for (int i = 0; i < 4; i++) area[i].y += Constants.TILE;
+        for (int i = 0; i < 4; i++) area[i].y += TILE;
         return true;
     }
 
     // Moves the block one tile diagonally
     void moveLeft() {
         for (Rectangle r: area) {
-            Rectangle newRect = new Rectangle(r.x - Constants.TILE, r.y, r.width, r.height);
+            Rectangle newRect = new Rectangle(r.x - TILE, r.y, r.width, r.height);
 
             // If moved block will go out of the screen
-            if (!new Rectangle(Constants.WIDTH, Constants.HEIGHT).contains(newRect)) {
+            if (!new Rectangle(WIDTH, HEIGHT).contains(newRect)) {
                 return;
             }
             // If moved block has reached the bottom area
@@ -123,16 +124,16 @@ class Block {
             }
         }
         // If the method doesn't return, the block is moved one tile right
-        for (int i = 0; i < 4; i++) area[i].x -= Constants.TILE;
+        for (int i = 0; i < 4; i++) area[i].x -= TILE;
     }
 
     // Moves the block one tile right
     void moveRight() {
         for (Rectangle r: area) {
-            Rectangle newRect = new Rectangle(r.x + Constants.TILE, r.y, r.width, r.height);
+            Rectangle newRect = new Rectangle(r.x + TILE, r.y, r.width, r.height);
 
             // If moved block will go out of the screen
-            if (!new Rectangle(Constants.WIDTH, Constants.HEIGHT).contains(newRect)) {
+            if (!new Rectangle(WIDTH, HEIGHT).contains(newRect)) {
                 return;
             }
             // If moved block has reached the right side
@@ -143,7 +144,7 @@ class Block {
             }
         }
         // If the method doesn't return, the block is moved one tile right
-        for (int i = 0; i < 4; i++) area[i].x += Constants.TILE;
+        for (int i = 0; i < 4; i++) area[i].x += TILE;
     }
 
     // Adds area of block to bottomTiles and replaces the active block
