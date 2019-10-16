@@ -11,18 +11,26 @@ import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JPanel;
+import javax.swing.JOptionPane;
 
 public class Game extends JPanel implements KeyListener {
     private Block activeBlock; // Block that is in motion
     final HashMap<Rectangle, Color> bottomTiles = new HashMap<>(); // All of the tiles on the bottom
+    private Timer timer;
 
+    // Constructors
     Game() {
         setBackground(Color.BLACK);
         addKeyListener(this);
         setFocusable(true);
+        reset();
+    }
 
+    // Resets game board
+    private void reset() {
+        bottomTiles.clear();
         activeBlock = new Block(this);
-        Timer timer = new Timer();
+        timer = new Timer();
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
@@ -42,6 +50,25 @@ public class Game extends JPanel implements KeyListener {
         return moveSuccessful;
     }
 
+    // Display lose message
+    void lose() {
+        timer.cancel();
+        int choice = JOptionPane.showOptionDialog(
+                this, // Parent frame
+                "You lost!",
+                "You lost!",
+                JOptionPane.YES_NO_CANCEL_OPTION, // Types of buttons (probably useless)
+                JOptionPane.WARNING_MESSAGE, // Type of message (affects message icon)
+                null, // Icon (default icon if null)
+                new String[]{"Retry", "Quit"}, // Text in buttons
+                "Retry" // Initial button selected
+        );
+
+        if (choice == 1) System.exit(ABORT);
+        else reset();
+    }
+
+    // Paints board (called every frame)
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
