@@ -82,10 +82,6 @@ class Block {
             }
             default -> throw new IllegalArgumentException("Unexpected random value: " + blockType);
         }
-
-        if (this.checkDeath()) {
-            System.exit(0);
-        }
     }
 
     // Moves block one tile down, returns whether move was successful
@@ -150,21 +146,12 @@ class Block {
         for (int i = 0; i < 4; i++) area[i].x += Constants.TILE;
     }
 
-    // Checks if the board has been filled to the top
-    private boolean checkDeath() {
-        for (Rectangle r: area) {
-            for (Rectangle b : tetris.bottomTiles.keySet()) {
-                if (b.contains(r)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
     // Adds area of block to bottomTiles and replaces the active block
     void deactivate() {
-        for (Rectangle r : area) tetris.bottomTiles.put(r, color);
+        for (Rectangle r : area) {
+            if (r.y == 0) System.exit(0); // TODO: Add death message
+            tetris.bottomTiles.put(r, color);
+        }
     }
 
     void rotate() {
