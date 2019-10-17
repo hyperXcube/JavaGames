@@ -138,7 +138,21 @@ class Block {
         }
     }
 
-    void rotate() {
+    //Checks whether rotating a block doesn't cause it to run into any bottom tiles
+    boolean canRotate() {
+        rotateClockwise();
+        for (Rectangle r: area) {
+            if (isInvalid(r)) {
+                rotateCounterClockwise();
+                return false;
+            }
+        }
+        rotateCounterClockwise();
+        return true;
+    }
+
+    //Rotates the block clockwise using dot products from linear algebra
+    void rotateClockwise() {
         if (blockType != 3) {
             Rectangle[] relativeArea = new Rectangle[4];
             int centerX = area[1].x;
@@ -154,7 +168,13 @@ class Block {
                 area[i].y = relativeArea[i].y * TILE + centerY;
             }
         }
+    }
 
+    //Rotates the block counter clockwise
+    private void rotateCounterClockwise() {
+        for (int i = 0; i < 3; i++) {
+            rotateClockwise();
+        }
     }
 
     void paint(Graphics2D g2d) {

@@ -90,7 +90,9 @@ public class Game extends JPanel implements KeyListener {
     @Override
     public void keyPressed(KeyEvent keyEvent) {
         switch (keyEvent.getKeyCode()) {
-            case KeyEvent.VK_UP -> activeBlock.rotate();
+            case KeyEvent.VK_UP -> {
+                if (activeBlock.canRotate()) activeBlock.rotateClockwise();
+            }
             case KeyEvent.VK_DOWN -> blockDown();
             case KeyEvent.VK_SPACE -> {
                 boolean keepMovingDown = true;
