@@ -12,6 +12,7 @@ class Block {
     private final AffineTransform transform = new AffineTransform();
     private final Game tetris;
 
+    // Constructors
     Block(Game parent) {
         tetris = parent;
 
@@ -22,9 +23,7 @@ class Block {
 
         int blockType = (int) (Math.random() * 7);
 
-        int startPos;
-        if (blockType == 0) startPos = (int) (Math.random() * (WIDTH / TILE - 4)) * TILE;
-        else startPos = (int) (Math.random() * (WIDTH / TILE - 3)) * TILE;
+        int startPos = (int) (Math.random() * (WIDTH / TILE - (blockType == 0 ? 4 : 3))) * TILE;
 
         switch (blockType) {
             case 0 -> {
@@ -99,7 +98,7 @@ class Block {
         return true;
     }
 
-    // Moves the block one tile diagonally
+    // Moves block one tile left
     void moveLeft() {
         for (Rectangle r: area) {
             Rectangle newRect = new Rectangle(r.x - TILE, r.y, r.width, r.height);
@@ -109,7 +108,7 @@ class Block {
         for (int i = 0; i < 4; i++) area[i].x -= TILE;
     }
 
-    // Moves the block one tile right
+    // Moves block one tile right
     void moveRight() {
         for (Rectangle r: area) {
             Rectangle newRect = new Rectangle(r.x + TILE, r.y, r.width, r.height);
@@ -133,13 +132,14 @@ class Block {
     // Adds area of block to bottomTiles and replaces the active block
     void deactivate() {
         for (Rectangle r : area) {
-            if (r.y == 0) System.exit(0); // TODO: Add death message
+            if (r.y == 0) tetris.lose();
             tetris.bottomTiles.put(r, color);
         }
     }
 
     void rotate() {
-        // TODO: Add handling of rotation
+        transform.rotate(Math.toRadians(90), area[1].x, area[1].y);
+        for (int i = 0; i < 4; i++) area[i] = transform.createTransformedShape(area[i]).getBounds();
     }
 
     void paint(Graphics2D g2d) {
