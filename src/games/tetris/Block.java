@@ -11,6 +11,7 @@ class Block {
     private final Color color;
     private final AffineTransform transform = new AffineTransform();
     private final Game tetris;
+    private final int blockType;
 
     // Constructors
     Block(Game parent) {
@@ -21,7 +22,7 @@ class Block {
         area[2] = new Rectangle(TILE, TILE);
         area[3] = new Rectangle(TILE, TILE);
 
-        int blockType = (int) (Math.random() * 7);
+        blockType = (int) (Math.random() * 7);
 
         int startPos = (int) (Math.random() * (WIDTH / TILE - (blockType == 0 ? 4 : 3))) * TILE;
 
@@ -45,10 +46,10 @@ class Block {
             case 2 -> {
                 // L block
                 color = new Color(255, 163, 51);
-                area[0].setLocation(startPos + TILE * 2, 0);
-                area[1].setLocation(startPos + TILE * 2, TILE);
-                area[2].setLocation(startPos + TILE, TILE);
-                area[3].setLocation(startPos, TILE);
+                area[0].setLocation(startPos, TILE);
+                area[1].setLocation(startPos + TILE, TILE);
+                area[2].setLocation(startPos + TILE * 2, TILE);
+                area[3].setLocation(startPos + TILE * 2, 0);
             }
             case 3 -> {
                 // O block
@@ -138,8 +139,22 @@ class Block {
     }
 
     void rotate() {
-        transform.rotate(Math.toRadians(90), area[1].x, area[1].y);
-        for (int i = 0; i < 4; i++) area[i] = transform.createTransformedShape(area[i]).getBounds();
+        if (blockType != 3) {
+            Rectangle[] relativeArea = new Rectangle[4];
+            int centerX = area[1].x;
+            int centerY = area[1].y;
+            for (int i = 0; i < 4; i++) {
+                relativeArea[i] = new Rectangle((area[i].x - centerX) / TILE, (area[i].y - centerY) / TILE, 1, 1);
+                int temp = relativeArea[i].x;
+                relativeArea[i].x = relativeArea[i].y * (-1);
+                relativeArea[i].y = temp;
+            }
+            for (int i = 0; i < 4; i++) {
+                area[i].x = relativeArea[i].x * TILE + centerX;
+                area[i].y = relativeArea[i].y * TILE + centerY;
+            }
+        }
+
     }
 
     void paint(Graphics2D g2d) {
