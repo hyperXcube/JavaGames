@@ -37,18 +37,18 @@ class Block {
             case 1 -> {
                 // J block
                 color = new Color(0, 0, 55);
-                area[0].setLocation(startPos, 0);
-                area[1].setLocation(startPos, TILE);
-                area[2].setLocation(startPos + TILE, TILE);
-                area[3].setLocation(startPos + TILE * 2, TILE);
+                area[0].setLocation(startPos + TILE * 2, TILE);
+                area[1].setLocation(startPos + TILE, TILE);
+                area[2].setLocation(startPos, TILE);
+                area[3].setLocation(startPos, 0);
             }
             case 2 -> {
                 // L block
                 color = new Color(255, 163, 51);
-                area[0].setLocation(startPos, TILE);
-                area[1].setLocation(startPos + TILE, TILE);
-                area[2].setLocation(startPos + TILE * 2, TILE);
-                area[3].setLocation(startPos + TILE * 2, 0);
+                area[0].setLocation(startPos + TILE * 2, 0);
+                area[1].setLocation(startPos + TILE * 2, TILE);
+                area[2].setLocation(startPos + TILE, TILE);
+                area[3].setLocation(startPos, TILE);
             }
             case 3 -> {
                 // O block
@@ -69,18 +69,18 @@ class Block {
             case 5 -> {
                 // T block
                 color = new Color(128, 0, 128);
-                area[0].setLocation(startPos, 0);
-                area[1].setLocation(startPos + TILE, 0);
-                area[2].setLocation(startPos + TILE * 2, 0);
-                area[3].setLocation(startPos + TILE, TILE);
+                area[0].setLocation(startPos, TILE);
+                area[1].setLocation(startPos + TILE, TILE);
+                area[2].setLocation(startPos + TILE * 2, TILE);
+                area[3].setLocation(startPos + TILE, 0);
             }
             case 6 -> {
                 // Z block
                 color = new Color(220, 20, 60);
-                area[0].setLocation(startPos, 0);
-                area[1].setLocation(startPos + TILE, 0);
-                area[2].setLocation(startPos + TILE, TILE);
-                area[3].setLocation(startPos + TILE * 2, TILE);
+                area[0].setLocation(startPos + TILE * 2, TILE);
+                area[1].setLocation(startPos + TILE, TILE);
+                area[2].setLocation(startPos + TILE, 0);
+                area[3].setLocation(startPos, 0);
             }
             default -> throw new IllegalArgumentException("Unexpected random value: " + blockType);
         }
