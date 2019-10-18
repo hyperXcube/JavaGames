@@ -58,23 +58,23 @@ public class Game extends JPanel implements KeyListener {
     }
 
     //Comparator to sort the blocks in bottom tiles by y value
-    private Comparator<Entry<Rectangle, Color>> blockComparator = Comparator.comparingInt(e -> e.getKey().y * (-1));
+    private Comparator<Entry<Rectangle, Color>> tileComparator = Comparator.comparingInt(e -> e.getKey().y * (-1));
 
     //Checks if there is a line of blocks in bottomTiles to be cleared
     private void checkLine() {
-        List<Entry<Rectangle, Color>> blocks = new ArrayList<>(bottomTiles.entrySet());
-        blocks.sort(blockComparator);
-        int level = blocks.get(0).getKey().y;
-        int levelCount = 0;
-        for (Entry<Rectangle, Color> e : blocks) {
-            if (e.getKey().y == level) levelCount++;
+        List<Entry<Rectangle, Color>> bottomTilesCopy = new ArrayList<>(bottomTiles.entrySet());
+        bottomTilesCopy.sort(tileComparator);
+        int yLevel = bottomTilesCopy.get(0).getKey().y;
+        int yLevelTileCount = 0;
+        for (Entry<Rectangle, Color> e : bottomTilesCopy) {
+            if (e.getKey().y == yLevel) yLevelTileCount++;
             else {
-                levelCount = 1;
-                level = e.getKey().y;
+                yLevelTileCount = 1;
+                yLevel = e.getKey().y;
             }
-            if (levelCount == 10) {
+            if (yLevelTileCount == 10) {
                 clearLine(e.getKey().y);
-                levelCount = 0;
+                yLevelTileCount = 0;
             }
         }
     }
@@ -82,7 +82,6 @@ public class Game extends JPanel implements KeyListener {
     //Clears all blocks with a certain y value
     private void clearLine(int yValue) {
         bottomTiles.entrySet().removeIf(e -> e.getKey().y == yValue);
-
         Iterator<Entry<Rectangle, Color>> iterator = bottomTiles.entrySet().iterator();
         HashMap<Rectangle, Color> temp = new HashMap<>();
         while (iterator.hasNext()) {
@@ -93,8 +92,8 @@ public class Game extends JPanel implements KeyListener {
                 temp.put(entry.getKey(), entry.getValue());
             }
         }
-        for (Entry<Rectangle, Color> entry: temp.entrySet()) {
-            bottomTiles.put(entry.getKey(), entry.getValue());
+        for (Entry<Rectangle, Color> e: temp.entrySet()) {
+            bottomTiles.put(e.getKey(), e.getValue());
         }
     }
 

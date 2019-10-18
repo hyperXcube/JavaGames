@@ -3,6 +3,7 @@ package games.tetris;
 import static games.tetris.Constants.*;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 
@@ -155,17 +156,16 @@ class Block {
     void rotateClockwise() {
         if (blockType != 3) {
             Rectangle[] relativeArea = new Rectangle[4];
-            int centerX = area[1].x;
-            int centerY = area[1].y;
+            Point center = new Point(area[1].x, area[1].y);
             for (int i = 0; i < 4; i++) {
-                relativeArea[i] = new Rectangle((area[i].x - centerX) / TILE, (area[i].y - centerY) / TILE, 1, 1);
+                relativeArea[i] = new Rectangle((area[i].x - center.x) / TILE, (area[i].y - center.y) / TILE, 1, 1);
                 int temp = relativeArea[i].x;
                 relativeArea[i].x = relativeArea[i].y * (-1);
                 relativeArea[i].y = temp;
             }
             for (int i = 0; i < 4; i++) {
-                area[i].x = relativeArea[i].x * TILE + centerX;
-                area[i].y = relativeArea[i].y * TILE + centerY;
+                area[i].x = relativeArea[i].x * TILE + center.x;
+                area[i].y = relativeArea[i].y * TILE + center.y;
             }
         }
     }
