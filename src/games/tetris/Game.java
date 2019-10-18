@@ -7,9 +7,8 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.HashMap;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
+import java.util.Map.Entry;
 import javax.swing.JPanel;
 import javax.swing.JOptionPane;
 
@@ -35,6 +34,7 @@ public class Game extends JPanel implements KeyListener {
             @Override
             public void run() {
                 blockDown();
+                if (!bottomTiles.isEmpty()) checkLine();
             }
         };
         timer.schedule(task, 0, 500);
@@ -48,6 +48,47 @@ public class Game extends JPanel implements KeyListener {
             activeBlock = new Block(this);
         }
         return moveSuccessful;
+    }
+
+    //Comparator to sort the blocks in bottom tiles by y value
+    private Comparator<Entry<Rectangle, Color>> blockComparator = Comparator.comparingInt(e -> e.getKey().y * (-1));
+
+    //Checks if there is a line of blocks in bottomTiles to be cleared
+    private void checkLine() {
+        List<Entry<Rectangle, Color>> blocks = new ArrayList<>(bottomTiles.entrySet());
+        blocks.sort(blockComparator);
+        int level = blocks.get(0).getKey().y;
+        int levelCount = 0;
+        for (Entry<Rectangle, Color> e : blocks) {
+            if (e.getKey().y == level) levelCount++;
+            else {
+                levelCount = 1;
+                level = e.getKey().y;
+            }
+            if (levelCount == 10) {
+                clearLine(e.getKey().y);
+                levelCount = 1;
+            }
+        }
+    }
+
+    //Clears all blocks with a certain y value
+    private void clearLine(int yValue) {
+        bottomTiles.entrySet().removeIf(e -> e.getKey().y == yValue);
+
+        Iterator<Entry<Rectangle, Color>> iterator = bottomTiles.entrySet().iterator();
+        HashMap<Rectangle, Color> temp = new HashMap<>();
+        while (iterator.hasNext()) {
+            Entry<Rectangle, Color> entry = iterator.next();
+            if (entry.getKey().y < yValue) {
+                iterator.remove();
+                entry.getKey().y += Constants.TILE;
+                temp.put(entry.getKey(), entry.getValue());
+            }
+        }
+        for (Entry<Rectangle, Color> entry: temp.entrySet()) {
+            bottomTiles.put(entry.getKey(), entry.getValue());
+        }
     }
 
     // Display lose message
