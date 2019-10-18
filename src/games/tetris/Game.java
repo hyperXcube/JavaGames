@@ -1,5 +1,6 @@
 package games.tetris;
 
+import static games.tetris.Constants.*;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -7,8 +8,14 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map.Entry;
+import java.util.Timer;
+import java.util.TimerTask;
 import javax.swing.JPanel;
 import javax.swing.JOptionPane;
 
@@ -67,7 +74,7 @@ public class Game extends JPanel implements KeyListener {
             }
             if (levelCount == 10) {
                 clearLine(e.getKey().y);
-                levelCount = 1;
+                levelCount = 0;
             }
         }
     }
@@ -82,7 +89,7 @@ public class Game extends JPanel implements KeyListener {
             Entry<Rectangle, Color> entry = iterator.next();
             if (entry.getKey().y < yValue) {
                 iterator.remove();
-                entry.getKey().y += Constants.TILE;
+                entry.getKey().y += TILE;
                 temp.put(entry.getKey(), entry.getValue());
             }
         }
