@@ -37,7 +37,7 @@ class Block {
             }
             case 1 -> {
                 // J block
-                color = new Color(0, 0, 55);
+                color = new Color(0, 0, 133);
                 area[0].setLocation(startPos + TILE * 2, TILE);
                 area[1].setLocation(startPos + TILE, TILE);
                 area[2].setLocation(startPos, TILE);
