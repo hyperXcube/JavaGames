@@ -134,8 +134,8 @@ class Block {
     // Adds area of block to bottomTiles and replaces the active block
     void deactivate() {
         for (Rectangle r : area) {
-            if (r.y == 0) tetris.lose();
             tetris.bottomTiles.put(r, color);
+            if (r.y == 0) tetris.lose();
         }
     }
 
