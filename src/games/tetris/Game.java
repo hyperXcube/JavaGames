@@ -34,7 +34,6 @@ public class Game extends JPanel implements KeyListener {
 
     // Resets game board
     private void reset() {
-        activeBlock = null;
         bottomTiles.clear();
         activeBlock = new Block(this);
         timer = new Timer();

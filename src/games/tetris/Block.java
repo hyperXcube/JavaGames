@@ -135,7 +135,10 @@ class Block {
     void deactivate() {
         for (Rectangle r : area) {
             tetris.bottomTiles.put(r, color);
-            if (r.y == 0) tetris.lose();
+            if (r.y == 0) {
+                tetris.lose();
+                break;
+            }
         }
     }
 
