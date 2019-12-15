@@ -12,7 +12,8 @@ A Collection of games made in Java using swing and awt.
 * Pong
 * Minesweeper
 * Laser Battle
+* Tetris
 
 ## Games in Progress
 
-* Tetris
+* None at the moment
