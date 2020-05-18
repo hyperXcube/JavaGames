@@ -5,12 +5,10 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.geom.AffineTransform;
 
 class Block {
     private final Rectangle[] area = new Rectangle[4];
     private final Color color;
-    private final AffineTransform transform = new AffineTransform();
     private final Game tetris;
     private final int blockType;
 
